@@ -31,7 +31,6 @@ router.post('/', validateUser, (req, res) => {
     })
 })
 
-
 // MIDDLEWARE
 
 function validateUser(req, res, next) {
