@@ -1,6 +1,8 @@
 const express = require('express');
 const helmet = require('helmet');
+const dbConnection = require('../data/db-config.js');
 const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
 
 const userRouter = require('./routes/user-router.js');
 const loginRouter = require('./routes/login-router.js');
@@ -18,6 +20,14 @@ const sessionConfig = {
     httpOnly: true,
     resave: false,
     saveUninitialized: false,
+
+    store: new KnexSessionStore({
+        knex: dbConnection,
+        tablename: 'knexsessions',
+        sidfieldname: 'sessionid',
+        createtable: true,
+        clearInterval: 1000 * 60 * 30
+    })
 }
 
 server.use(express.json());
