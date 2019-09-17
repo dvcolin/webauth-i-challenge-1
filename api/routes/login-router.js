@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 
+
+
 const Users = require('../models/user-model.js');
 
 
@@ -12,6 +14,7 @@ router.post('/', validateCredentials, (req, res) => {
     Users.findBy({ username })
     .first()
     .then(user => {
+        req.session.user = user;
         res.status(200).json({ message: `Welcome ${user.username}!` })
     })
     .catch(err => {
