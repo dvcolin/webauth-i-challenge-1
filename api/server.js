@@ -39,4 +39,15 @@ server.use('/api/login', loginRouter);
 server.use('/api/register', registerRouter);
 
 
+server.get('/api/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            res.status(200).json({ message: 'Log out successful' })
+        });
+    } else {
+        res.status(200).json({ message: 'Already logged out' })
+    }
+})
+
+
 module.exports = server;
